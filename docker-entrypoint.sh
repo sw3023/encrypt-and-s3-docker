@@ -12,17 +12,18 @@ fi
 
 for i in `find /backup -mindepth 1 -name "$FILE_REGEX"`; do
   echo "Found file: $i, encrypting and uploading..."
+  filename=`basename $i`
 
   # generate a key we'll use to encrypt
   openssl rand -base64 128 -out /tmp/key.bin
 
   # encrypt this key with the public key passed to the environment
-  openssl rsautl -encrypt -inkey /key.pub -pubin -in /tmp/key.bin -out $i.key.enc
+  openssl rsautl -encrypt -inkey /key.pub -pubin -in /tmp/key.bin -out /tmp/$filename.key.enc
 
   # now, encrypt the file in question with the randomly generated key
-  openssl enc -aes-256-cbc -salt -in $i -pass file:/tmp/key.bin -out $i.enc
+  openssl enc -aes-256-cbc -salt -in $i -pass file:/tmp/key.bin -out /tmp/$filename.enc
 
   # upload the encrypted version of the randomly generated key and the encrypted file itself.
-  aws s3 mv $i.key.enc s3://$BUCKET/
-  aws s3 mv $i.enc s3://$BUCKET/
+  aws s3 mv /tmp/$filename.key.enc s3://$BUCKET/
+  aws s3 mv /tmp/$filename.enc s3://$BUCKET/
 done
