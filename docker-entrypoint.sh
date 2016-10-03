@@ -10,7 +10,7 @@ if [ -z "$AWS_ACCESS_KEY_ID" -o -z "$AWS_SECRET_ACCESS_KEY" -o -z "$BUCKET" ]; t
   exit 1
 fi
 
-for i in `find /backup -mindepth 1 -name *`; do
+for i in `find /backup -mindepth 1 -name "$FILE_REGEX"`; do
   echo "Found file: $i, encrypting and uploading..."
 
   # generate a key we'll use to encrypt
