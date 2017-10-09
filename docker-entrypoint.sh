@@ -24,6 +24,6 @@ for i in `find /backup -mindepth 1 -name "$FILE_REGEX"`; do
   openssl enc -aes-256-cbc -salt -in $i -pass file:/tmp/key.bin -out /tmp/$filename.enc
 
   # upload the encrypted version of the randomly generated key and the encrypted file itself.
-  aws s3 mv /tmp/$filename.key.enc s3://$BUCKET/
-  aws s3 mv /tmp/$filename.enc s3://$BUCKET/
+  aws s3 mv /tmp/$filename.key.enc s3://$BUCKET/ --region $AWS_DEFAULT_REGION
+  aws s3 mv /tmp/$filename.enc s3://$BUCKET/ --region $AWS_DEFAULT_REGION
 done
