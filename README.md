@@ -12,8 +12,8 @@ docker run --rm --name encrypt-and-s3 \
   -e BUCKET=someexistingbucket \
   -e AWS_DEFAULT_REGION=bucketregion \
   -v /path/to/your/pub/key.pem:/key.pub \
-  -v /directory/to/backup:/backup:ro \
-  stevenolen/encrypt-and-s3
+  -v /directory/to/backup/*:/backup:ro \
+  centerx/encrypt-and-s3-docker-master
 ```
 
   * `FILE_REGEX`, defaults=`'*'`, can be passed to replace the name param used in `find`
