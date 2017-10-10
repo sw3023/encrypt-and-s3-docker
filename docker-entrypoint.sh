@@ -1,5 +1,5 @@
-#! /bin/sh
-
+#!/bin/sh
+echo "Entry"
 # check to see if valid openssl pub key has been passed
 openssl rsa -noout -text -inform PEM -in /key.pub -pubin &> /dev/null \
  || (echo "Please mount a valid public key file" && exit 1)
